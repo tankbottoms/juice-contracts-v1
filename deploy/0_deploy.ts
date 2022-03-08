@@ -1,7 +1,4 @@
-/**
- * Deploys Terminal V1.1 contract.
- */
-
+import { network } from 'hardhat';
 import { DeployFunction } from 'hardhat-deploy/types';
 
 const fn: DeployFunction = async ({ getNamedAccounts, deployments, getChainId }) => {
@@ -16,16 +13,23 @@ const fn: DeployFunction = async ({ getNamedAccounts, deployments, getChainId })
   console.log({ chainId, d: deployer });
 
   switch (chainId) {
-    // // mainnet
-    // case '1':
-    //   chain = 'mainnet';
-    //   multisig = '0xAF28bcB48C40dBC86f52D459A6562F658fc94B1e';
-    //   break;
-    // // rinkeby
-    // case '4':
-    //   chain = 'rinkeby';
-    //   multisig = '0xAF28bcB48C40dBC86f52D459A6562F658fc94B1e';
-    //   break;
+    /*
+      // mainnet
+      case '1':
+        chain = 'mainnet';
+        multisig = '0xAF28bcB48C40dBC86f52D459A6562F658fc94B1e';
+        break;
+      // rinkeby
+      case '4':
+        chain = 'rinkeby';
+        multisig = '0xAF28bcB48C40dBC86f52D459A6562F658fc94B1e';
+        break;
+      // local
+      case '31337':
+        chain = 'localhost';
+        multisig = '0x69C6026e3938adE9e1ddE8Ff6A37eC96595bF1e1';
+        break;
+    */
     // polygonMumbai (matic testnet)
     case '137':
       chain = 'polygon';
@@ -35,11 +39,6 @@ const fn: DeployFunction = async ({ getNamedAccounts, deployments, getChainId })
     case '80001':
       chain = 'polygonMumbai';
       multisig = '0x35e28D9a6dE296f98909B4E78E09836d6e93D9bf';
-      break;
-    // local
-    case '31337':
-      chain = 'localhost';
-      multisig = '0x69C6026e3938adE9e1ddE8Ff6A37eC96595bF1e1';
       break;
     default:
       throw new Error(`Chain id ${chainId} not supported`);
@@ -89,8 +88,67 @@ const fn: DeployFunction = async ({ getNamedAccounts, deployments, getChainId })
   console.log(`contract [Prices] => ${chainId}`);
   const Prices = await deploy('Prices', { from: deployer, log: true, args: [] });
 
-  console.log('ALL DONE');
+  console.log(`contract [TerminalV1] => ${chainId}`);
+  const TerminalV1 = await deploy('TerminalV1', {
+    from: deployer,
+    log: true,
+    args: [
+      Projects.address,
+      FundingCycles.address,
+      TicketBooth.address,
+      OperatorStore.address,
+      ModStore.address,
+      Prices.address,
+      TerminalDirectory.address,
+      /*_governance=*/ multisig,
+    ],
+  });
+
+  console.log(`contract [TerminalV1_1] => ${chainId}`);
+  const TerminalV1_1 = await deploy('TerminalV1_1', {
+    from: deployer,
+    log: true,
+    args: [
+      Projects.address,
+      FundingCycles.address,
+      TicketBooth.address,
+      OperatorStore.address,
+      ModStore.address,
+      Prices.address,
+      TerminalDirectory.address,
+      /*_governance=*/ multisig,
+    ],
+  });
+
+  console.log(`contract [TerminalV1Rescue] => ${chainId}`);
+  const TerminalV1Rescue = await deploy('TerminalV1Rescue', {
+    from: deployer,
+    log: true,
+    args: [
+      Projects.address,
+      FundingCycles.address,
+      TicketBooth.address,
+      OperatorStore.address,
+      TerminalDirectory.address,
+      /*_governance=*/ multisig,
+    ],
+  });
+
+  console.log('ok');
+  console.log(`TO VERIFY`);
+  console.log(`npx hardhat run scripts/verifyAll.ts --network ${network.name}`);
 };
 
 export default fn;
-export const tags = ['TerminalV1_1'];
+export const tags = [
+  'OperatorStore',
+  'Projects',
+  'TerminalDirectory',
+  'FundingCycles',
+  'TicketBooth',
+  'ModStore',
+  'Prices',
+  'TerminalV1',
+  'TerminalV1_1',
+  'TerminalV1Rescue',
+];
