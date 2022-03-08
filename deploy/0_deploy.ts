@@ -19,17 +19,17 @@ const fn: DeployFunction = async ({ getNamedAccounts, deployments, getChainId })
         chain = 'mainnet';
         multisig = '0xAF28bcB48C40dBC86f52D459A6562F658fc94B1e';
         break;
-      // rinkeby
-      case '4':
-        chain = 'rinkeby';
-        multisig = '0xAF28bcB48C40dBC86f52D459A6562F658fc94B1e';
-        break;
-      // local
-      case '31337':
-        chain = 'localhost';
-        multisig = '0x69C6026e3938adE9e1ddE8Ff6A37eC96595bF1e1';
-        break;
-    */
+        // local
+        case '31337':
+          chain = 'localhost';
+          multisig = '0x69C6026e3938adE9e1ddE8Ff6A37eC96595bF1e1';
+          break;
+          */
+    // rinkeby
+    case '4':
+      chain = 'rinkeby';
+      multisig = '0xAF28bcB48C40dBC86f52D459A6562F658fc94B1e';
+      break;
     // polygonMumbai (matic testnet)
     case '137':
       chain = 'polygon';
