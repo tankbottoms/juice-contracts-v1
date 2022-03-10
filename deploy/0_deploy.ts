@@ -13,22 +13,21 @@ const fn: DeployFunction = async ({ getNamedAccounts, deployments, getChainId })
   console.log({ chainId, d: deployer });
 
   switch (chainId) {
-    // polygonMumbai (matic testnet)
+    // polygon (matic)
     case '137':
-      chain = 'polygon';
+      chain = 'matic';
       multisig = '0x312e53eA23d40c65f8E21e5896a0cc55dF4F8E09';
       break;
-    // polygonMumbai (matic testnet)
+    // mumbai (matic testnet)
     case '80001':
-      chain = 'polygonMumbai';
-      multisig = '0x312e53eA23d40c65f8E21e5896a0cc55dF4F8E09';
+      chain = 'mumbai';
+      multisig = deployer;
       break;
     default:
       throw new Error(`Chain id ${chainId} not supported`);
   }
 
-  console.log({ chain });
-  console.log({ owner: multisig });
+  console.log({ chain, owner: multisig });
 
   console.log(`contract [OperatorStore] => ${chainId}`);
   const OperatorStore = await deploy('OperatorStore', { from: deployer, log: true, args: [] });

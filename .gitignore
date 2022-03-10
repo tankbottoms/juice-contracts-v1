@@ -10,3 +10,4 @@ deployments/localhost/**
 .DS_Store
 
 *.txt
+*.log
