@@ -13,32 +13,15 @@ const fn: DeployFunction = async ({ getNamedAccounts, deployments, getChainId })
   console.log({ chainId, d: deployer });
 
   switch (chainId) {
-    /*
-      // mainnet
-      case '1':
-        chain = 'mainnet';
-        multisig = '0xAF28bcB48C40dBC86f52D459A6562F658fc94B1e';
-        break;
-        // local
-        case '31337':
-          chain = 'localhost';
-          multisig = '0x69C6026e3938adE9e1ddE8Ff6A37eC96595bF1e1';
-          break;
-          */
-    // rinkeby
-    case '4':
-      chain = 'rinkeby';
-      multisig = '0xAF28bcB48C40dBC86f52D459A6562F658fc94B1e';
-      break;
     // polygonMumbai (matic testnet)
     case '137':
       chain = 'polygon';
-      multisig = '0x35e28D9a6dE296f98909B4E78E09836d6e93D9bf';
+      multisig = '0x312e53eA23d40c65f8E21e5896a0cc55dF4F8E09';
       break;
     // polygonMumbai (matic testnet)
     case '80001':
       chain = 'polygonMumbai';
-      multisig = '0x35e28D9a6dE296f98909B4E78E09836d6e93D9bf';
+      multisig = '0x312e53eA23d40c65f8E21e5896a0cc55dF4F8E09';
       break;
     default:
       throw new Error(`Chain id ${chainId} not supported`);

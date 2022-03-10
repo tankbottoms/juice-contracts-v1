@@ -46,7 +46,7 @@ const config: HardhatUserConfig = {
         },
       },
     },
-    polygon: {
+    matic: {
       url: 'https://polygon-mainnet.g.alchemy.com/v2/' + ALCHEMY_MATIC_API_KEY,
       gasPrice: 160000000000,
       allowUnlimitedContractSize: true,
@@ -58,7 +58,7 @@ const config: HardhatUserConfig = {
         },
       },
     },
-    polygonMumbai: {
+    mumbai: {
       url: 'https://polygon-mumbai.g.alchemy.com/v2/' + ALCHEMY_MUMBAI_API_KEY,
       gasPrice: 160000000000,
       allowUnlimitedContractSize: true,
