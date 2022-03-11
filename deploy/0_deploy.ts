@@ -1,10 +1,10 @@
-import { network } from 'hardhat';
+import { TransactionResponse } from 'ethers/node_modules/@ethersproject/abstract-provider';
+import { ethers, network } from 'hardhat';
 import { DeployFunction } from 'hardhat-deploy/types';
 
 const fn: DeployFunction = async ({ getNamedAccounts, deployments, getChainId }) => {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
-
   let chainId = await getChainId();
 
   let chain: string;
@@ -115,6 +115,22 @@ const fn: DeployFunction = async ({ getNamedAccounts, deployments, getChainId })
       /*_governance=*/ multisig,
     ],
   });
+
+  const prices = new ethers.Contract(Prices.address, Prices.abi, (await ethers.getSigners())[0]);
+
+  const feed =
+    chainId == '137' // matic
+      ? '0xAB594600376Ec9fD91F8e885dADF0CE036862dE0'
+      : chainId == '80001' // mumbai
+      ? '0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada'
+      : '';
+  if (feed) {
+    const tx: TransactionResponse = await prices.addFeed(feed, 1, {
+      gasLimit: ethers.BigNumber.from('2100000'),
+    });
+    console.log(`adding price feed ${feed} ...`);
+    await tx.wait(2);
+  }
 
   console.log('ok');
   console.log(`TO VERIFY`);
