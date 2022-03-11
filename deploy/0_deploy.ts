@@ -125,6 +125,7 @@ const fn: DeployFunction = async ({ getNamedAccounts, deployments, getChainId })
       ? '0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada'
       : '';
   if (feed) {
+    console.log('[PRICE FEED]');
     const tx: TransactionResponse = await prices.addFeed(feed, 1, {
       gasLimit: ethers.BigNumber.from('2100000'),
     });
